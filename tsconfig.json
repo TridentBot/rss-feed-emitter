@@ -3,7 +3,7 @@
         "incremental": true,
 		"alwaysStrict": true,
 		"declaration": true,
-		"esModuleInterop": false,
+		"esModuleInterop": true,
 		"experimentalDecorators": true,
 		"forceConsistentCasingInFileNames": true,
 		"lib": ["esnext"],
@@ -19,8 +19,8 @@
 		"resolveJsonModule": true,
 		"sourceMap": true,
 		"strictBindCallApply": true,
-        "target": "esnext",
-        "types": ["@types/node", "@types/node-fetch", "@types/feedparser", "chainfetch"]
+        "target": "es6",
+        "types": ["@types/node", "@types/node-fetch", "@types/feedparser", "discord.js"]
 	},
 	"exclude": [
         "node_modules"

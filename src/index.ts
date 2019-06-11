@@ -1,3 +1,1 @@
-import { RssFeedEmitter, RssFeedEmitterOptions } from './lib/RssFeedEmitter';
-
-export { RssFeedEmitter, RssFeedEmitterOptions };
+export { RssFeedEmitter, IRssFeedEmitterOptions, IRssFeedObject, FeedList } from './lib/RssFeedEmitter';

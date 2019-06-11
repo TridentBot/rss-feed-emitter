@@ -190,7 +190,7 @@ module.exports = {
         ],
         quotes: [
             "error",
-            "double",
+            "single",
             {
                 avoidEscape: true,
                 allowTemplateLiterals: true

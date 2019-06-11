@@ -20,7 +20,9 @@
     "rss-feeds"
   ],
   "author": "Jacz <jacz@jaczaus.me> (jaczaus.me)",
-  "contributors": ["QuantumlyTangled (https://github.com/QuantumlyTangled)"],
+  "contributors": [
+    "QuantumlyTangled (https://github.com/QuantumlyTangled)"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/TridentBot/rss-feed-emitter/issues"
@@ -38,7 +40,7 @@
     "typescript": "^3.5.1"
   },
   "dependencies": {
-    "chainfetch": "^1.2.2",
+    "discord.js": "discordjs/discord.js#master",
     "feedparser": "^2.2.9",
     "node-fetch": "^2.6.0"
   }
