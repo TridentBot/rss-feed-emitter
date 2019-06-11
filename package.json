@@ -4,7 +4,10 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc"
+    "test": "eslint --ext ts src",
+    "lint": "eslint --fix --ext ts src",
+    "build": "tsc -p .",
+    "watch": "tsc -p . -w"
   },
   "repository": {
     "type": "git",
@@ -16,17 +19,23 @@
     "emitter",
     "rss-feeds"
   ],
-  "author": "QuantumlyTangled (https://github.com/QuantumlyTangled)",
+  "author": "Jacz <jacz@jaczaus.me> (jaczaus.me)",
+  "contributors": ["QuantumlyTangled (https://github.com/QuantumlyTangled)"],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/TridentBot/rss-feed-emitter/issues"
   },
   "homepage": "https://github.com/TridentBot/rss-feed-emitter#readme",
   "devDependencies": {
-    "@kcp/eslint-config-lint": "github:KlasaCommunityPlugins/lint-files",
     "@types/feedparser": "^2.2.2",
     "@types/node": "^12.0.7",
-    "@types/node-fetch": "^2.3.5"
+    "@types/node-fetch": "^2.3.5",
+    "@typescript-eslint/eslint-plugin": "^1.10.2",
+    "@typescript-eslint/parser": "^1.10.2",
+    "eslint": "^5.16.0",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-promise": "^4.1.1",
+    "typescript": "^3.5.1"
   },
   "dependencies": {
     "chainfetch": "^1.2.2",
