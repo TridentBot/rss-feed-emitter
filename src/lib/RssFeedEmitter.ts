@@ -1,7 +1,8 @@
 import { EventEmitter } from 'events';
 import { Collection, Util } from 'discord.js';
-import * as FeedParser from 'feedparser';
+import FeedParser from 'feedparser';
 import fetch, { Response } from 'node-fetch';
+import { RssData } from './structures/RssData';
 
 export class RssFeedEmitter extends EventEmitter {
 
@@ -40,16 +41,27 @@ export class RssFeedEmitter extends EventEmitter {
         return this._feedList.set(entry.url, entry);
     }
 
-    private async _fetch(url: string): Promise<any> {
+    private async _fetch(url: string): Promise<RssData> {
         const fParser: FeedParser = new FeedParser({
             feedurl: url
         });
+
+        const data = new RssData(url);
 
         const result: Response = await fetch(url, { headers: {
             accept: 'text/html,application/xhtml+xml,application/xml,text/xml',
             'user-agent': this.userAgent
         } });
         if (result.ok) result.body.pipe(fParser);
+        if (!result.ok) throw new Error(`This URL returned a ${result.status} status code`);
+
+        fParser.on('readable', () => {
+            const item: FeedParser.Item = fParser.read();
+            item.meta.link = url;
+            data.insertItem(item);
+        });
+
+        return data;
     }
 
 }
