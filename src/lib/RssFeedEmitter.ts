@@ -10,38 +10,52 @@ export class RssFeedEmitter extends EventEmitter {
 
     private _options: IRssFeedEmitterOptions;
     private _defaultRefresh: number;
+    private _historyLengthModifier: number;
     private _feedList: FeedList = new Collection();
+    private _intervalList: IntervalList = new Collection();
 
     public constructor(options: IRssFeedEmitterOptions = {}) {
         super();
 
         this._options = options;
-        this.userAgent = options.userAgent || 'Trident RssFeedEmitter Library';
-        this._defaultRefresh = options.defaultRefreshTime || 60000;
+        this.userAgent = this._options.userAgent || 'Trident RssFeedEmitter Library';
+        this._historyLengthModifier = this._options.historyLengthModifier || 3;
+        this._defaultRefresh = this._options.defaultRefreshTime || 60000;
     }
 
-    public add(params: IRssFeedObject): FeedList {
+    public Add(params: IRssFeedObject): FeedList {
         params = Util.mergeDefault({
             refresh: this._defaultRefresh
         }, params) as IRssFeedObject;
-        return this._updateFeedList(params);
+        return this._UpdateFeedList(params);
     }
 
-    public get getList(): FeedList {
+    public get GetList(): FeedList {
         return this._feedList;
     }
 
-    private _updateFeedList(entry: IRssFeedObject): FeedList {
+    private _UpdateFeedList(entry: IRssFeedObject): FeedList {
         const foundEntry: IRssFeedObject | undefined = this._feedList.find(v => v.url === entry.url);
         if (foundEntry) this._feedList.delete(foundEntry.url);
-        return this._addToFeed(entry);
+        return this._AddToFeed(entry);
     }
 
-    private _addToFeed(entry: IRssFeedObject): FeedList {
+    private _AddToFeed(entry: IRssFeedObject): FeedList {
         return this._feedList.set(entry.url, entry);
     }
 
-    private async _fetch(url: string): Promise<RssData> {
+    private async _FeedContentFetch(url: string): Promise<any> {
+        const data: RssData = await this._Fetch(url);
+        data.feed = this._feedList.find(v => v.url === url);
+        data.feed.maxHistoryLength = data.list.size * this._historyLengthModifier;
+
+        // eslint-disable-next-line no-warning-comments
+        // TODO: Need to figure out how to sort this
+        data.list = data.list.sort();
+        return;
+    }
+
+    private async _Fetch(url: string): Promise<RssData> {
         const fParser: FeedParser = new FeedParser({
             feedurl: url
         });
@@ -69,11 +83,14 @@ export class RssFeedEmitter extends EventEmitter {
 export interface IRssFeedEmitterOptions {
     userAgent?: string;
     defaultRefreshTime?: number;
+    historyLengthModifier?: number;
 }
 
 export interface IRssFeedObject {
     url: string;
-    refresh: number;
+    refresh?: number;
+    maxHistoryLength?: number;
 }
 
 export type FeedList = Collection<string, IRssFeedObject>;
+export type IntervalList = Collection<string, NodeJS.Timer>;

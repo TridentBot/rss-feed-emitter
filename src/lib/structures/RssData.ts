@@ -1,15 +1,22 @@
 import { Item } from 'feedparser';
 import { Collection } from 'discord.js';
 
-export class RssData extends Collection<string, Item> {
-    public readonly feedURL: string = '';
+export class RssData {
 
-    public constructor(url: string, data?: readonly (readonly [string, Item])[]) {
-        super(data);
+    public list: DataList = new Collection();
+    public readonly feedURL: string = '';
+    public feed: IRssFeedObject;
+
+    public constructor(url: string) {
         this.feedURL = url;
+        this.feed = { url: this.feedURL };
     }
 
-    public insertItem(item: Item): RssData {
-        return super.set(item.title, item);
+    public insertItem(item: Item): DataList {
+        return this.list.set(item.title, item);
     }
 }
+
+export type DataList = Collection<string, Item>;
+
+import { IRssFeedObject } from '../RssFeedEmitter';
