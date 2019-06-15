@@ -40,7 +40,7 @@
     "typescript": "^3.5.1"
   },
   "dependencies": {
-    "discord.js": "discordjs/discord.js#master",
+    "@advancedmap/advancedmap": "^0.2.0",
     "feedparser": "^2.2.9",
     "node-fetch": "^2.6.0"
   }

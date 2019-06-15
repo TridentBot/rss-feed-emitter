@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
-import { Collection, Util } from 'discord.js';
 import FeedParser from 'feedparser';
 import fetch, { Response } from 'node-fetch';
+import { AdvancedMap } from '@advancedmap/advancedmap';
 import { RssData } from './structures/RssData';
 
 export class RssFeedEmitter extends EventEmitter {
@@ -11,8 +11,8 @@ export class RssFeedEmitter extends EventEmitter {
     private _options: IRssFeedEmitterOptions;
     private _defaultRefresh: number;
     private _historyLengthModifier: number;
-    private _feedList: FeedList = new Collection();
-    private _intervalList: IntervalList = new Collection();
+    private _feedList: FeedList = new AdvancedMap();
+    private _intervalList: IntervalList = new AdvancedMap();
 
     public constructor(options: IRssFeedEmitterOptions = {}) {
         super();
@@ -24,9 +24,10 @@ export class RssFeedEmitter extends EventEmitter {
     }
 
     public Add(params: IRssFeedObject): FeedList {
-        params = Util.mergeDefault({
-            refresh: this._defaultRefresh
-        }, params) as IRssFeedObject;
+        params = {
+            refresh: this._defaultRefresh,
+            ...params
+        };
         return this._UpdateFeedList(params);
     }
 
@@ -92,5 +93,5 @@ export interface IRssFeedObject {
     maxHistoryLength?: number;
 }
 
-export type FeedList = Collection<string, IRssFeedObject>;
-export type IntervalList = Collection<string, NodeJS.Timer>;
+export type FeedList = AdvancedMap<string, IRssFeedObject>;
+export type IntervalList = AdvancedMap<string, NodeJS.Timer>;

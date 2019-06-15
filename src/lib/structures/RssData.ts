@@ -1,9 +1,9 @@
 import { Item } from 'feedparser';
-import { Collection } from 'discord.js';
+import { AdvancedMap } from '@advancedmap/advancedmap';
 
 export class RssData {
 
-    public list: DataList = new Collection();
+    public list: DataList = new AdvancedMap();
     public readonly feedURL: string = '';
     public feed: IRssFeedObject;
 
@@ -17,6 +17,6 @@ export class RssData {
     }
 }
 
-export type DataList = Collection<string, Item>;
+export type DataList = AdvancedMap<string, Item>;
 
 import { IRssFeedObject } from '../RssFeedEmitter';
