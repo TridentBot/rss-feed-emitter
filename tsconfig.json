@@ -20,7 +20,7 @@
 		"sourceMap": true,
 		"strictBindCallApply": true,
         "target": "es6",
-        "types": ["@types/node", "@types/node-fetch", "@types/feedparser", "discord.js"]
+        "types": ["@types/node", "@types/node-fetch", "@types/feedparser", "@advancedmap/advancedmap"]
 	},
 	"exclude": [
         "node_modules"
